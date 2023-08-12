@@ -1,0 +1,15 @@
+.grid {
+  max-width: fit-content;
+  display: grid;
+  grid-template: repeat(3, 80px) / repeat(3, 80px);
+  background-color: gray;
+  gap: 5px;
+}
+
+.tokenA {
+  background-color: #fff;
+}
+
+.tokenB {
+  background-color: aquamarine;
+}
