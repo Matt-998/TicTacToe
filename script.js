@@ -4,7 +4,6 @@ gameBoard = {
 
 let container = document.querySelector(".grid");
 let buttons = container.children;
-console.log(buttons);
 function displayGameState(array) {
   for (i = 0; i < array.length; i++) {
     switch (array[i]) {
@@ -19,6 +18,16 @@ function displayGameState(array) {
         break;
     }
   }
+}
+
+function selectSpot() {
+  playerNumber = 2;
+  gameBoard.gameBoard[this.getAttribute("data-index")] = playerNumber;
+  displayGameState(gameBoard.gameBoard);
+}
+
+for (let button of buttons) {
+  button.addEventListener("click", selectSpot);
 }
 
 displayGameState(gameBoard.gameBoard);
