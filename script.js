@@ -29,24 +29,36 @@ function ModuleOfStuff() {
   const getCurrentPlayer = () => {
     return currentPlayer;
   };
-  return switchPlayer, getCurrentPlayer;
+  return { switchPlayer, getCurrentPlayer };
 }
 
 function playRound() {
+  const Module = ModuleOfStuff();
+
   //Get current player
   //Pick spot
   //Switch player
   //Update board state
 }
 
+function clickHandler(e) {
+  const selectedCell = e.target.dataset.index;
+  if (!selectedCell) return;
+  //play round
+  //update screen
+}
+
+// add event listeners fo click handler function
+
 function selectSpot() {
-  playerNumber = 2;
-  gameBoard.gameBoard[this.dataset.index] = playerNumber;
+  const Module = ModuleOfStuff();
+  gameBoard.gameBoard[this.dataset.index] = Module.getCurrentPlayer();
+  Module.switchPlayer();
   displayGameState(gameBoard.gameBoard);
 }
 
 for (let button of buttons) {
   button.addEventListener("click", selectSpot);
 }
-
+ModuleOfStuff();
 displayGameState(gameBoard.gameBoard);
