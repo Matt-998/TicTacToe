@@ -20,9 +20,28 @@ function displayGameState(array) {
   }
 }
 
+function ModuleOfStuff() {
+  let currentPlayer = 1;
+  const switchPlayer = () => {
+    currentPlayer === 2 ? (currentPlayer = 1) : (currentPlayer = 2);
+  };
+
+  const getCurrentPlayer = () => {
+    return currentPlayer;
+  };
+  return switchPlayer, getCurrentPlayer;
+}
+
+function playRound() {
+  //Get current player
+  //Pick spot
+  //Switch player
+  //Update board state
+}
+
 function selectSpot() {
   playerNumber = 2;
-  gameBoard.gameBoard[this.getAttribute("data-index")] = playerNumber;
+  gameBoard.gameBoard[this.dataset.index] = playerNumber;
   displayGameState(gameBoard.gameBoard);
 }
 
