@@ -46,6 +46,7 @@ function ModuleOfStuff() {
 
   const getCurrentPlayer = () => currentPlayer;
   const playRound = (index) => {
+    if (board.getBoard()[index] !== 0) return;
     board.getBoard()[index] = currentPlayer;
     switchPlayer();
     board.displayGameState(board.getBoard());
