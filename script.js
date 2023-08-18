@@ -1,5 +1,5 @@
 function gameBoard() {
-  let board = [1, 2, 2, 1, 2, 1, 2, 1, 1];
+  let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   let container = document.querySelector(".grid");
   let buttons = container.children;
   const displayGameState = (board) => {
@@ -23,6 +23,7 @@ function gameBoard() {
 
 function ModuleOfStuff() {
   const board = gameBoard();
+  const playerDisplay = document.querySelector(".currentPlayer");
   const players = [
     {
       name: "playerOne",
@@ -33,14 +34,17 @@ function ModuleOfStuff() {
       number: 2,
     },
   ];
-  let currentPlayer = players[0];
+  let currentPlayer = players[0].number;
+  const displayCurrentPlayer = () => {
+    playerDisplay.textContent = currentPlayer;
+  };
+  displayCurrentPlayer();
   const switchPlayer = () => {
     currentPlayer === 2 ? (currentPlayer = 1) : (currentPlayer = 2);
+    displayCurrentPlayer();
   };
 
-  const getCurrentPlayer = () => {
-    return currentPlayer;
-  };
+  const getCurrentPlayer = () => currentPlayer;
   const playRound = (index) => {
     board.getBoard()[index] = currentPlayer;
     switchPlayer();
