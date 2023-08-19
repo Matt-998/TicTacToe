@@ -1,7 +1,7 @@
-function gameBoard() {
+const gameBoard = (function gameBoard() {
   let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-  let container = document.querySelector(".grid");
-  let buttons = container.children;
+  const buttons = document.querySelector(".grid").children;
+  const resetButton = document.querySelector(".reset");
   const displayGameState = (board) => {
     for (i = 0; i < board.length; i++) {
       switch (board[i]) {
@@ -18,11 +18,18 @@ function gameBoard() {
     }
   };
   const getBoard = () => board;
-  return { displayGameState, getBoard };
-}
+  const resetBoard = () => {
+    for (i = 0; i < board.length; i++) {
+      board[i] = 0;
+    }
+    displayGameState(board);
+  };
+  resetButton.addEventListener("click", resetBoard);
+  return { displayGameState, getBoard, resetBoard };
+})();
 
 function ModuleOfStuff() {
-  const board = gameBoard();
+  const board = gameBoard;
   const playerDisplay = document.querySelector(".currentPlayer");
   const players = [
     {
@@ -43,7 +50,6 @@ function ModuleOfStuff() {
     currentPlayer === 2 ? (currentPlayer = 1) : (currentPlayer = 2);
     displayCurrentPlayer();
   };
-
   const getCurrentPlayer = () => currentPlayer;
   const playRound = (index) => {
     if (board.getBoard()[index] !== 0) return;
@@ -51,23 +57,20 @@ function ModuleOfStuff() {
     switchPlayer();
     board.displayGameState(board.getBoard());
   };
-  return { switchPlayer, getCurrentPlayer, playRound };
+  return { getCurrentPlayer, playRound };
 }
 
 function MainModule() {
-  let container = document.querySelector(".grid");
-  let buttons = container.children;
+  const buttons = document.querySelector(".grid").children;
   const stuff = ModuleOfStuff();
-  const board = gameBoard();
   function clickHandler(e) {
     const selectedCell = e.target.dataset.index;
     if (!selectedCell) return;
+
     stuff.playRound(selectedCell);
   }
-
   for (let button of buttons) {
     button.addEventListener("click", clickHandler);
   }
-  board.displayGameState(board.getBoard());
 }
 MainModule();
