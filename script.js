@@ -54,7 +54,7 @@ const GameController = (() => {
 
   const switchPlayer = () => {
     currentPlayer === 2 ? (currentPlayer = 1) : (currentPlayer = 2);
-    displayCurrentPlayer(); //FIX ME
+    DisplayController.displayCurrentPlayer(); //FIX ME
   };
 
   const getCurrentPlayer = () => currentPlayer;
@@ -102,5 +102,7 @@ const DisplayController = (() => {
   for (let button of buttons) {
     button.addEventListener("click", clickHandler);
   }
+
+  return { displayCurrentPlayer };
 })();
 DisplayController;
