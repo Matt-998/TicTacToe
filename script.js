@@ -1,5 +1,5 @@
 const GameBoard = (() => {
-  let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   const buttons = document.querySelector(".grid").children;
   const resetButton = document.querySelector(".reset");
 
@@ -13,7 +13,7 @@ const GameBoard = (() => {
   for (let button of buttons) {
     button.addEventListener("click", clickHandler);
   }
-
+  const getButtons = () => buttons;
   const getBoard = () => board;
   const resetBoard = () => {
     for (i = 0; i < board.length; i++) {
@@ -22,7 +22,7 @@ const GameBoard = (() => {
     DisplayController.displayGameState(board);
   };
   resetButton.addEventListener("click", resetBoard);
-  return { getBoard, resetBoard };
+  return { getBoard, resetBoard, getButtons };
 })();
 
 const GameController = (() => {
@@ -80,8 +80,8 @@ const GameController = (() => {
 })();
 
 const DisplayController = (() => {
-  const buttons = document.querySelector(".grid").children;
   const playerDisplay = document.querySelector(".currentPlayer");
+  const buttons = GameBoard.getButtons();
 
   const displayCurrentPlayer = () => {
     playerDisplay.textContent = GameController.getCurrentPlayer();
