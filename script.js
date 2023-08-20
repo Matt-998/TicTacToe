@@ -2,30 +2,27 @@ const GameBoard = (() => {
   let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   const buttons = document.querySelector(".grid").children;
   const resetButton = document.querySelector(".reset");
-  const displayGameState = (board) => {
-    for (i = 0; i < board.length; i++) {
-      switch (board[i]) {
-        case 0:
-          buttons[i].className = "blank";
-          break;
-        case 1:
-          buttons[i].className = "token1";
-          break;
-        case 2:
-          buttons[i].className = "token2";
-          break;
-      }
-    }
-  };
+
+  function clickHandler(e) {
+    const selectedCell = e.target.dataset.index;
+    if (!selectedCell) return;
+
+    GameController.playRound(selectedCell);
+  }
+
+  for (let button of buttons) {
+    button.addEventListener("click", clickHandler);
+  }
+
   const getBoard = () => board;
   const resetBoard = () => {
     for (i = 0; i < board.length; i++) {
       board[i] = 0;
     }
-    displayGameState(board);
+    DisplayController.displayGameState(board);
   };
   resetButton.addEventListener("click", resetBoard);
-  return { displayGameState, getBoard, resetBoard };
+  return { getBoard, resetBoard };
 })();
 
 const GameController = (() => {
@@ -54,7 +51,7 @@ const GameController = (() => {
 
   const switchPlayer = () => {
     currentPlayer === 2 ? (currentPlayer = 1) : (currentPlayer = 2);
-    DisplayController.displayCurrentPlayer(); //FIX ME
+    DisplayController.displayCurrentPlayer();
   };
 
   const getCurrentPlayer = () => currentPlayer;
@@ -72,7 +69,7 @@ const GameController = (() => {
   const playRound = (index) => {
     if (board[index] !== 0) return;
     board[index] = currentPlayer;
-    GameBoard.displayGameState(board);
+    DisplayController.displayGameState(board);
     if (winConditions.some(checkCondition)) {
       console.log(`${currentPlayer} is the winner`);
     }
@@ -92,17 +89,21 @@ const DisplayController = (() => {
 
   displayCurrentPlayer();
 
-  function clickHandler(e) {
-    const selectedCell = e.target.dataset.index;
-    if (!selectedCell) return;
+  const displayGameState = (board) => {
+    for (i = 0; i < board.length; i++) {
+      switch (board[i]) {
+        case 0:
+          buttons[i].className = "blank";
+          break;
+        case 1:
+          buttons[i].className = "token1";
+          break;
+        case 2:
+          buttons[i].className = "token2";
+          break;
+      }
+    }
+  };
 
-    GameController.playRound(selectedCell);
-  }
-
-  for (let button of buttons) {
-    button.addEventListener("click", clickHandler);
-  }
-
-  return { displayCurrentPlayer };
+  return { displayCurrentPlayer, displayGameState };
 })();
-DisplayController;
