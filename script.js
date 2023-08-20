@@ -98,10 +98,10 @@ const DisplayController = (() => {
     playerDisplay.textContent = message;
   };
 
-  displayCurrentPlayer();
+  displayCurrentPlayer(GameController.getCurrentPlayer().name);
 
   const reset = () => {
-    displayCurrentPlayer();
+    displayCurrentPlayer(GameController.getCurrentPlayer().name);
   };
 
   const displayGameState = (board) => {
