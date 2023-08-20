@@ -19,6 +19,8 @@ const GameBoard = (() => {
     for (i = 0; i < board.length; i++) {
       board[i] = 0;
     }
+    GameController.reset();
+    DisplayController.reset();
     DisplayController.displayGameState(board);
   };
   resetButton.addEventListener("click", resetBoard);
@@ -56,6 +58,10 @@ const GameController = (() => {
 
   const getCurrentPlayer = () => currentPlayer;
 
+  const reset = () => {
+    currentPlayer = players[0].number;
+  };
+
   const checkCondition = (condition) => {
     let result = "";
     for (i = 0; i < 3; i++) {
@@ -76,7 +82,7 @@ const GameController = (() => {
     switchPlayer();
   };
 
-  return { getCurrentPlayer, playRound };
+  return { getCurrentPlayer, playRound, reset };
 })();
 
 const DisplayController = (() => {
@@ -88,6 +94,10 @@ const DisplayController = (() => {
   };
 
   displayCurrentPlayer();
+
+  const reset = () => {
+    displayCurrentPlayer();
+  };
 
   const displayGameState = (board) => {
     for (i = 0; i < board.length; i++) {
@@ -105,5 +115,5 @@ const DisplayController = (() => {
     }
   };
 
-  return { displayCurrentPlayer, displayGameState };
+  return { displayCurrentPlayer, displayGameState, reset };
 })();
