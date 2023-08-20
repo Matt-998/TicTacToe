@@ -6,12 +6,47 @@
   gap: 5px;
 }
 
-.token1 {
-  background-color: #09ff00;
+.grid > button {
+  background-color: #ffdcdc;
+}
+
+.token1::before,
+.token1::after {
+  background-color: #000000;
+  content: "";
+  display: block;
+  margin: auto;
+  margin-top: -8px;
+  width: 100%;
+  height: 8px;
+  border-radius: 3px;
+}
+
+.token1::before {
+  margin-top: 2px;
+  transform: rotate(-45deg);
+}
+
+.token1::after {
+  transform: rotate(45deg);
 }
 
 .token2 {
-  background-color: aquamarine;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.token2::after {
+  content: "";
+  position: absolute;
+  width: 55%;
+  height: 55%;
+  border: 8px solid black;
+  border-radius: 50%;
 }
 
 .blank {

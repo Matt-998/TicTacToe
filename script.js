@@ -31,11 +31,11 @@ const GameController = (() => {
   const board = GameBoard.getBoard();
   const players = [
     {
-      name: "playerOne",
+      name: "Player X",
       number: 1,
     },
     {
-      name: "playerTwo",
+      name: "Player O",
       number: 2,
     },
   ];
@@ -49,17 +49,19 @@ const GameController = (() => {
     [0, 4, 8],
     [2, 4, 6],
   ];
-  let currentPlayer = players[0].number;
+  let currentPlayer = players[0];
 
   const switchPlayer = () => {
-    currentPlayer === 2 ? (currentPlayer = 1) : (currentPlayer = 2);
-    DisplayController.displayCurrentPlayer();
+    currentPlayer.number === 2
+      ? (currentPlayer = players[0])
+      : (currentPlayer = players[1]);
+    DisplayController.displayCurrentPlayer(currentPlayer.name);
   };
 
   const getCurrentPlayer = () => currentPlayer;
 
   const reset = () => {
-    currentPlayer = players[0].number;
+    currentPlayer = players[0];
   };
 
   const checkCondition = (condition) => {
@@ -68,16 +70,15 @@ const GameController = (() => {
       if (board[condition[i]] === 0) return;
       result += board[condition[i]];
     }
-    if (result === "111" || result === "222") return true;
-    return false;
+    return result === "111" || result === "222";
   };
 
   const playRound = (index) => {
     if (board[index] !== 0) return;
-    board[index] = currentPlayer;
+    board[index] = currentPlayer.number;
     DisplayController.displayGameState(board);
     if (winConditions.some(checkCondition)) {
-      console.log(`${currentPlayer} is the winner`);
+      console.log(`${currentPlayer.name} is the winner`);
     }
     switchPlayer();
   };
@@ -89,8 +90,12 @@ const DisplayController = (() => {
   const playerDisplay = document.querySelector(".currentPlayer");
   const buttons = GameBoard.getButtons();
 
-  const displayCurrentPlayer = () => {
-    playerDisplay.textContent = GameController.getCurrentPlayer();
+  const displayCurrentPlayer = (name) => {
+    setMessageDisplay(`${name}'s Turn`);
+  };
+
+  const setMessageDisplay = (message) => {
+    playerDisplay.textContent = message;
   };
 
   displayCurrentPlayer();
