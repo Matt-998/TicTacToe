@@ -5,7 +5,7 @@ const GameBoard = (() => {
 
   function clickHandler(e) {
     const selectedCell = e.target.dataset.index;
-    if (!selectedCell) return;
+    if (!selectedCell || GameController.getGameWon()) return;
 
     GameController.playRound(selectedCell);
   }
@@ -49,10 +49,12 @@ const GameController = (() => {
     [0, 4, 8],
     [2, 4, 6],
   ];
+
   let currentPlayer = players[0];
+  let gameWon = false;
 
   const switchPlayer = () => {
-    currentPlayer.number === 2
+    currentPlayer === players[1]
       ? (currentPlayer = players[0])
       : (currentPlayer = players[1]);
     DisplayController.displayCurrentPlayer(currentPlayer.name);
@@ -60,8 +62,11 @@ const GameController = (() => {
 
   const getCurrentPlayer = () => currentPlayer;
 
+  const getGameWon = () => gameWon;
+
   const reset = () => {
     currentPlayer = players[0];
+    gameWon = false;
   };
 
   const checkCondition = (condition) => {
@@ -78,17 +83,23 @@ const GameController = (() => {
     board[index] = currentPlayer.number;
     DisplayController.displayGameState(board);
     if (winConditions.some(checkCondition)) {
-      console.log(`${currentPlayer.name} is the winner`);
+      DisplayController.displayWinner(currentPlayer.name);
+      gameWon = true;
+      return;
     }
     switchPlayer();
   };
 
-  return { getCurrentPlayer, playRound, reset };
+  return { getCurrentPlayer, playRound, getGameWon, reset };
 })();
 
 const DisplayController = (() => {
   const playerDisplay = document.querySelector(".currentPlayer");
   const buttons = GameBoard.getButtons();
+
+  const displayWinner = (winner) => {
+    setMessageDisplay(`${winner} Wins!`);
+  };
 
   const displayCurrentPlayer = (name) => {
     setMessageDisplay(`${name}'s Turn`);
@@ -120,5 +131,5 @@ const DisplayController = (() => {
     }
   };
 
-  return { displayCurrentPlayer, displayGameState, reset };
+  return { displayCurrentPlayer, displayWinner, displayGameState, reset };
 })();
