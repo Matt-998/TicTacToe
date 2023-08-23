@@ -52,12 +52,13 @@ const GameController = (() => {
 
   let currentPlayer = players[0];
   let gameWon = false;
+  let turnCount = 0;
 
   const switchPlayer = () => {
     currentPlayer === players[1]
       ? (currentPlayer = players[0])
       : (currentPlayer = players[1]);
-    DisplayController.displayCurrentPlayer(currentPlayer.name);
+    DisplayController.setMessageDisplay(`${currentPlayer.name}'s Turn`);
   };
 
   const getCurrentPlayer = () => currentPlayer;
@@ -67,6 +68,7 @@ const GameController = (() => {
   const reset = () => {
     currentPlayer = players[0];
     gameWon = false;
+    turnCount = 1;
   };
 
   const checkCondition = (condition) => {
@@ -83,10 +85,16 @@ const GameController = (() => {
     board[index] = currentPlayer.number;
     DisplayController.displayGameState(board);
     if (winConditions.some(checkCondition)) {
-      DisplayController.displayWinner(currentPlayer.name);
+      DisplayController.setMessageDisplay(`${currentPlayer.name} Wins!`);
       gameWon = true;
       return;
     }
+    if (turnCount === 9) {
+      DisplayController.setMessageDisplay(`It's a Tie!`);
+      return;
+    }
+    turnCount++;
+    console.log(turnCount);
     switchPlayer();
   };
 
@@ -97,22 +105,14 @@ const DisplayController = (() => {
   const playerDisplay = document.querySelector(".currentPlayer");
   const buttons = GameBoard.getButtons();
 
-  const displayWinner = (winner) => {
-    setMessageDisplay(`${winner} Wins!`);
-  };
-
-  const displayCurrentPlayer = (name) => {
-    setMessageDisplay(`${name}'s Turn`);
-  };
-
   const setMessageDisplay = (message) => {
     playerDisplay.textContent = message;
   };
 
-  displayCurrentPlayer(GameController.getCurrentPlayer().name);
+  setMessageDisplay(`${GameController.getCurrentPlayer().name}'s Turn`);
 
   const reset = () => {
-    displayCurrentPlayer(GameController.getCurrentPlayer().name);
+    setMessageDisplay(GameController.getCurrentPlayer().name);
   };
 
   const displayGameState = (board) => {
@@ -131,5 +131,5 @@ const DisplayController = (() => {
     }
   };
 
-  return { displayCurrentPlayer, displayWinner, displayGameState, reset };
+  return { setMessageDisplay, displayGameState, reset };
 })();
