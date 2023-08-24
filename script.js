@@ -112,7 +112,7 @@ const DisplayController = (() => {
   setMessageDisplay(`${GameController.getCurrentPlayer().name}'s Turn`);
 
   const reset = () => {
-    setMessageDisplay(GameController.getCurrentPlayer().name);
+    setMessageDisplay(`${GameController.getCurrentPlayer().name}'s Turn`);
   };
 
   const displayGameState = (board) => {
